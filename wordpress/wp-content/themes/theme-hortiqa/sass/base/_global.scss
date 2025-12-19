@@ -1,0 +1,98 @@
+// Container
+@use "./vars" as *;
+
+.wrapper {
+  max-width: ($containerWidth + $containerPadding) + px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $containerSidePadding + px;
+
+  @media (max-width: $breakpoint1450) {
+    max-width: 1200px;
+  }
+
+  @media (max-width: $breakpoint992) {
+    max-width: 970px;
+  }
+
+  @media (max-width: $breakpoint768) {
+    max-width: 740px;
+  }
+
+  @media (max-width: $breakpoint480) {
+    max-width: none;
+  }
+}
+.wrapper {
+  padding: 0 15px;
+}
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+body {
+  @extend %g-500;
+  color: var(--body);
+  &.locked {
+    overflow: hidden;
+  }
+  // Dark mode styles
+  &.dark {
+    background: #242424;
+  }
+}
+
+// Animations
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+a {
+  color: var(--body);
+}
+
+p {
+  color: var(--body);
+}
+
+.ml-0 {
+  margin-left: 0 !important;
+}
+.mr-0 {
+  margin-right: 0 !important;
+}
+
+/* ____________________________________ end */
+/* position senter */
+/*   position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+
+/* cart */
+/* &__item {
+    flex: 0 0 calc(25% - 16px);
+    max-width: 100%;
+} */
+
+/* input {
+  text-decoration: none;
+  border: none;        
+  outline: none;
+} */
+
+/*   p {
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: clamp(1.6rem, 2vw, 2.2rem);
+  } */
+
+/*   отспуты бустрап 
+*/
+/*   --bs-gutter-x: 50px; 
+    --bs-gutter-y: 50px; */

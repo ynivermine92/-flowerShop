@@ -1,0 +1,18 @@
+// cols
+@use "./libs/cols";
+
+// base
+@use "./base/reset";
+@use "./base/global";
+@use "./base/root";
+@use "./base/fonts";
+
+//components
+
+// section
+@use "./section/header";
+
+// Libs
+
+/* @import './libs/fancybox'; */
+/* @import './libs/swiper';*/

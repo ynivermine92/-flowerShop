@@ -1,0 +1,320 @@
+<!doctype html>
+<html <?php language_attributes(); ?>>
+
+<head>
+	<meta charset="<?php bloginfo('charset'); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<?php wp_head(); ?>
+</head>
+
+
+
+
+
+<body <?php body_class(); ?>>
+	<?php wp_body_open(); ?>
+
+	<?php global $geniuscourses_options; ?>
+
+
+
+	<header class="header">
+		<!-- Navbar -->
+		<div class="header__desktop">
+			<div class="wrapper">
+				<div class="header__wrapper">
+					<div class="navbar">
+						<div class="navbar__wrapper">
+							<div class="logo">
+
+								<?php if (function_exists('has_custom_logo')) { ?>
+									<a href="<?php echo esc_url(home_url("/")); ?>"> <? the_custom_logo(); ?> </a>
+								<? } ?>
+
+							</div>
+
+
+
+
+							<button class="burger">
+								<div class="burger__box">
+									<span></span>
+								</div>
+								<div class="burger__content">Catalog</div>
+							</button>
+						</div>
+						<nav class="nav__menu">
+							<ul class="menu">
+								<?php
+								wp_nav_menu(array(
+									'theme_location'  => 'header_nav',
+									'container'      => false,
+									'items_wrap'     => '%3$s',
+								));
+								?>
+							</ul>
+						</nav>
+
+						<div class="header__inner">
+
+							<a class="header__tell" href="tel:+380631298869">
+								<svg class="header__tell-icon">
+									<use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/svg/tell.svg#tell"></use>
+								</svg> <span>380 (63) 129-88-69</span></a>
+
+
+							<div class="header__content">
+								<div class="header__account account header__box">
+									<svg class="user__svg">
+										<use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/svg/login.svg#login"></use>
+									</svg>
+								</div>
+
+								<div class="header__wishlist wishlist header__box">
+									<svg class="wishlist__svg">
+										<use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/svg/wishlist.svg#wishlist"></use>
+									</svg>
+									<span class="wishlist__number">0</span>
+								</div>
+
+								<div class="header__cart cart header__box">
+									<svg class="cart__svg">
+
+										<use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/svg/basket.svg#basket"></use>
+									</svg>
+									<span class="cart__number">0</span>
+								</div>
+
+							</div>
+
+
+							<div class="header__languages languages">
+								<a href="#" class="languages__link active">UA</a>
+								<a href="#" class="languages__link">RU</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<nav class="navCatalog">
+					<h3 class="navCatalog__title">Каталог товарів</h3>
+					<div class="navCatalog__wrapper">
+						<ul class="menu catalogProduct">
+							<?php
+							$categories = get_terms([
+								'taxonomy'   => 'product_cat',
+								'hide_empty' => true,
+							]);
+
+							foreach ($categories as $category) :
+
+								// Картинка категории
+								$thumbnail_id = get_term_meta($category->term_id, 'thumbnail_id', true);
+								$image = wp_get_attachment_url($thumbnail_id);
+							?>
+								<li class="menu__item">
+									<div class="menu__preview">
+										<?php if ($image): ?>
+											<img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($category->name); ?>">
+										<?php endif; ?>
+
+										<a href="<?php echo get_term_link($category); ?>" class="menu__item-link">
+											<?php echo esc_html($category->name); ?>
+										</a>
+									</div>
+
+									<ul class="menu__submenu">
+										<?php
+										$products = wc_get_products([
+											'category' => [$category->slug],
+											'limit'    => -1,
+										]);
+
+										foreach ($products as $product): ?>
+											<li>
+												<a href="<?php echo get_permalink($product->get_id()); ?>">
+													<?php echo esc_html($product->get_name()); ?>
+												</a>
+											</li>
+										<?php endforeach; ?>
+									</ul>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+
+
+
+
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<div class="header__mobile">
+			<div class="wrapper">
+				<div class="navbar">
+					<div class="header__wrapper">
+						<div class="header__detals">
+							<div class="logo">
+
+								<?php if (function_exists('has_custom_logo')) { ?>
+									<a href="<?php echo esc_url(home_url("/")); ?>"> <? the_custom_logo(); ?> </a>
+								<? } ?>
+
+							</div>
+							<button class="burger burger__mobile-btn">
+								<div class="burger__box">
+									<span></span>
+								</div>
+								<div class="burger__content">Каталог товарів</div>
+							</button>
+
+
+						</div>
+
+						<div class="header__detals">
+
+
+							<div class="header__account account header__box">
+								<svg class="user__svg">
+									<use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/svg/login.svg#login"></use>
+								</svg>
+							</div>
+
+
+							<div class="header__wishlist wishlist header__box">
+								<svg class="wishlist__svg">
+									<use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/svg/wishlist.svg#wishlist"></use>
+								</svg>
+								<span class="wishlist__number">0</span>
+							</div>
+
+							<div class="header__cart cart header__box">
+								<svg class="cart__svg">
+									<use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/svg/basket.svg#basket"></use>
+								</svg>
+								<span class="cart__number">0</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="burger-mobile">
+			<div class="burger-mobile__box">
+				<div class="logo">
+
+					<?php if (function_exists('has_custom_logo')) { ?>
+						<a href="<?php echo esc_url(home_url("/")); ?>"> <? the_custom_logo(); ?> </a>
+					<? } ?>
+
+				</div>
+				<div class="burger-mobile__close">
+					<?php
+					echo file_get_contents(
+						get_template_directory() . '/assets/img/svg/close.svg'
+					);
+					?>
+
+				</div>
+
+			</div>
+
+			<ul class="burger-mobile__items">
+				<li class="burger-mobile__item ">
+					<div class="burger-mobile__content burger-mobile__table">
+						<a class="burger-mobile__link"> Каталог товарів</a>
+
+						<?php
+						echo file_get_contents(
+							get_template_directory() . '/assets/img/svg/arrow.svg'
+						);
+						?>
+
+					</div>
+
+					<ul class="burger-mobile__one-items">
+						<li class="burger-mobile__one-item">
+							<a class="burger-mobile__one-link" href="#">Покриття для бетону</a>
+						</li>
+						<li class="burger-mobile__one-item">
+							<a class="burger-mobile__one-link" href="#">Емаль для ванн Green</a>
+						</li>
+						<li class="burger-mobile__one-item">
+							<a class="burger-mobile__one-link" href="#">Акрил для ванн</a>
+						</li>
+						<li class="burger-mobile__one-item">
+							<a class="burger-mobile__one-link" href="#">Епоксидна наливна підлога</a>
+						</li>
+						<li class="burger-mobile__one-item">
+							<a class="burger-mobile__one-link" href="#">Епоксидна фарба для плитки</a>
+						</li>
+						<li class="burger-mobile__one-item">
+							<a class="burger-mobile__one-link" href="#">Епоксидна смола та пігменти</a>
+						</li>
+						<li class="burger-mobile__one-item">
+							<a class="burger-mobile__one-link" href="#">Акрил для реставрації ванн</a>
+						</li>
+					</ul>
+				</li>
+				<li class="burger-mobile__item">
+					<div class="burger-mobile__content">
+						<a class="burger-mobile__link">Доставка та оплата</a>
+					</div>
+				</li>
+				<li class="burger-mobile__item">
+					<div class="burger-mobile__content">
+						<a class="burger-mobile__link">Обмін та повернення</a>
+					</div>
+				</li>
+				<li class="burger-mobile__item">
+					<div class="burger-mobile__content">
+						<a class="burger-mobile__link">Про нас</a>
+					</div>
+				</li>
+				<li class="burger-mobile__item">
+					<div class="burger-mobile__content">
+						<a class="burger-mobile__link">Контакти</a>
+					</div>
+				</li>
+				<li class="burger-mobile__item">
+					<div class="burger-mobile__content">
+						<a class="burger-mobile__link">Відгуки</a>
+					</div>
+				</li>
+			</ul>
+			<div class="wrapper">
+				<div class="burger-mobile__wrapper">
+					<a class="header__tel" href="tel:+380631298869">380 (63) 129-88-69</a>
+
+					<div class="header__languages languages">
+						<a href="#" class="languages__link active">UA</a>
+						<a href="#" class="languages__link">RU</a>
+					</div>
+				</div>
+
+				<div class="burger-mobile__social">
+					<div class="burger-mobile__social-box">
+						<a class="burger-mobile__social-link" href="#"><img
+								class="burger-mobile__social-image"
+								src="img/svg/telegram.png"
+								alt="" /></a>
+					</div>
+					<div class="burger-mobile__social-box">
+						<a class="burger-mobile__social-link" href="#"><img
+								class="burger-mobile__social-image"
+								src="img/svg/viber.png"
+								alt="" /></a>
+					</div>
+					<div class="burger-mobile__social-box">
+						<a class="burger-mobile__social-link" href="#"><img
+								class="burger-mobile__social-image"
+								src="img/svg/whats.png"
+								alt="" /></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>

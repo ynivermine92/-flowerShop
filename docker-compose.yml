@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: wp_db
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hortiqa
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppassword
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    container_name: wp_site
+    ports:
+      - "8000:80"
+    environment:
+      UPLOAD_LIMIT: 128M
+      PHP_MEMORY_LIMIT: 256M
+      TZ: "Europe/Kyiv"
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppassword
+      WORDPRESS_DB_NAME: hortiqa
+    volumes:
+      - ./wordpress/wp-content/themes/theme-hortiqa:/var/www/html/wp-content/themes/theme-hortiqa
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/90-uploads.ini:ro
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: wp_pma
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: wpuser
+      PMA_PASSWORD: wppassword
+
+volumes:
+  db_data:
+  wp_plugins:
+
+
