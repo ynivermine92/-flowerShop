@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const burger = () => {
     const burgerBtn = document.querySelector(".burger");
-    const navMenu = document.querySelector(".navCatalog");
+    const navMenu = document.querySelector(".catalog");
     burgerBtn.addEventListener("click", () => {
       navMenu.classList.toggle("active");
       burgerBtn.classList.toggle("active");
@@ -28,13 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   burger();
 
+
+
   const burgerBobMenu = () => {
     const sershMobBTN = document.querySelector(".burger__mobile-btn");
     const meneWrapper = document.querySelector(".burger-mobile");
     const headerDesktop = document.querySelector(".header__desktop");
     const headerMobile = document.querySelector(".header__mobile");
-    const burgerClouse = document.querySelector(".header__close-btn");
-    const wrapperClouse = document.querySelector(".burger-mobile__close");
+    const burgerClouse = document.querySelector(".burger-mobile__close");
+    const wrapperSershMob = document.querySelector(".header__box-detals");
 
     sershMobBTN.addEventListener("click", () => {
       meneWrapper.classList.add("active");
@@ -43,14 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
         headerMobile.classList.add("disabled");
         document.body.classList.add("locked");
       }
-    });
-
-    burgerClouse.addEventListener("mouseenter", () => {
-      wrapperClouse.classList.add("active");
-    });
-
-    burgerClouse.addEventListener("mouseleave", () => {
-      wrapperClouse.classList.remove("active");
     });
 
     burgerClouse.addEventListener("click", () => {
@@ -74,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   burgerBobMenu();
 
-  const burgerMenuTable = () => {
+ const burgerMenuTable = () => {
     const sershMobBtn = document.querySelector(".burger-mobile__table");
     const arrowAnimation = document.querySelector(".burger-mobile__arrow");
     const menuItem = document.querySelector(".burger-mobile__one-items");
@@ -91,4 +85,15 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   burgerMenuTable();
+
+
+
+
+    document.querySelectorAll('.menu__item').forEach(item => {
+    if (item.querySelector('ul')) {
+      item.classList.add('active');
+    }
+  });
+
+  
 });
