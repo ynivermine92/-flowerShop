@@ -70,13 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const sershMobBtn = document.querySelector(".burger-mobile__table");
     const arrowAnimation = document.querySelector(".burger-mobile__arrow");
     const menuItem = document.querySelector(".burger-mobile__catalog-items");
+    const menuItemLink = document.querySelector(".burger-mobile__link");
 
     sershMobBtn.addEventListener("click", () => {
       if (!menuItem.classList.contains("active")) {
         arrowAnimation.classList.add("active");
+        menuItemLink.classList.add("active");
         menuItem.classList.add("active");
       } else {
         arrowAnimation.classList.remove("active");
+        menuItemLink.classList.add("active");
         menuItem.classList.remove("active");
       }
     });
@@ -91,23 +94,24 @@ document.addEventListener("DOMContentLoaded", () => {
     itemMenu.forEach((item) => {
       item.addEventListener("click", (e) => {
         e.preventDefault(); // отменяем переход по ссылке первого уровня
-
+        item.classList.toggle("active");
         // Скрываем актив у всех остальных первого уровня
         itemMenu.forEach((otherItem) => {
           if (otherItem !== item) {
-            otherItem.classList.remove("active");
+            otherItem.classList.remove("open");
+              otherItem.classList.remove("active");
             const childLvl2 = otherItem.querySelector(".catalog__category-two");
-            if (childLvl2) childLvl2.classList.remove("active");
+            if (childLvl2) childLvl2.classList.remove("open");
           }
         });
 
         // Переключаем актив у текущего первого уровня
-        item.classList.toggle("active");
+        item.classList.toggle("open");
 
         // Переключаем актив второго уровня только если он есть
         const childLvl2 = item.querySelector(".catalog__category-two");
         if (childLvl2) {
-          childLvl2.classList.toggle("active");
+          childLvl2.classList.toggle("open");
         }
       });
     });
@@ -117,14 +121,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     lvl2Items.forEach((lvl2) => {
       lvl2.addEventListener("click", (e) => {
-        e.stopPropagation(); // чтобы клик не поднялся к первому уровню
+        lvl2.classList.toggle("active");
+        e.stopPropagation();
 
-        // Если клик был именно на lvl2 (не на ссылку третьего уровня)
         if (!e.target.closest(".catalog__category-three a")) {
-          e.preventDefault(); // отменяем переход по ссылке второго уровня
+          e.preventDefault();
           const lvl3 = lvl2.querySelector(".catalog__category-three");
           if (lvl3) {
-            lvl3.classList.toggle("active");
+            lvl3.classList.toggle("open");
           }
         }
       });

@@ -360,7 +360,7 @@
 												src="<?php echo esc_url($image); ?>"
 												alt="<?php echo esc_attr($category->name); ?>">
 										<?php endif; ?>
-										<div class="menu__item-name"><?php echo esc_html($category->name); ?></div>
+										<div class="menu__item-name menu__item-one-name"><?php echo esc_html($category->name); ?></div>
 										<span class="menu__arrow"></span>
 									</a>
 

@@ -778,33 +778,38 @@
     }
 
     &__arrow {
+      &.active {
+        transform: rotate(180deg);
+        transition: all 0.5s;
+        #Vector {
+          stroke: var(--gren);
+          transition: all 0.5s;
+        }
+      }
       transition: all 0.5s;
       width: 12px;
       height: 12px;
     }
-
-    &__arrow.active {
-      transform: rotate(180deg);
-      transition: all 0.5s;
-    }
-
     &__link {
+      &.active {
+        color: var(--gren);
+        transition: all 0.5s;
+      }
       color: black;
       font-size: 17px;
     }
 
     &__catalog-items {
+      &.active {
+        position: unset;
+        z-index: 1;
+
+        opacity: 1;
+        animation: showNav 0.6s ease forwards;
+      }
       position: absolute;
       z-index: -1;
       opacity: 0;
-    }
-
-    &__catalog-items.active {
-      position: unset;
-      z-index: 1;
-
-      opacity: 1;
-      animation: showNav 0.6s ease forwards;
     }
 
     &__wrapper {
@@ -826,17 +831,51 @@
     .catalog__category {
       transition: all 0.5s;
 
-      .menu__arrow {
-        transition: all 0.5s;
-        border-right: 2px solid var(--body);
-        border-bottom: 2px solid var(--body);
-        height: 7px;
-        width: 7px;
-        transform: rotate(315deg);
-      }
-
       a {
-        &:hover {
+        color: var(--body);
+        transition: all 0.5s;
+
+        .menu__arrow {
+          height: 7px;
+          width: 7px;
+          transition: all 0.5s;
+          border-right: 2px solid var(--body);
+          border-bottom: 2px solid var(--body);
+          transform: rotate(316deg);
+        }
+      }
+      height: 100%;
+    }
+
+    .catalog__category-one {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .menu__item-two {
+        padding: 5px 20px 5px 60px;
+      }
+    }
+
+    .menu__item-one {
+      &.open {
+        .catalog__category-two {
+          opacity: 1;
+          display: block;
+        }
+      }
+      &.active {
+        transition: all 0.5s;
+        .menu__arrow {
+          transition: all 0.5s;
+          border-right: 2px solid var(--body);
+          border-bottom: 2px solid var(--body);
+          height: 7px;
+          width: 7px;
+          transform: rotate(315deg);
+        }
+
+        a {
           color: var(--gren);
           transition: all 0.5s;
 
@@ -850,36 +889,6 @@
           }
         }
       }
-      height: 100%;
-    }
-
-    .menu__item {
-      line-height: 1.5em;
-      .burger-mobile__catalog-items,
-      .catalog__category {
-        display: none;
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-      }
-
-      /* При клике добавляем класс active */
-      .burger-mobile__items-catalog.active > .burger-mobile__catalog-items,
-      .menu__item.active > .catalog__category {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .menu__item.active > .menu__item-link .menu__arrow {
-      opacity: 1;
-      visibility: visible;
-    }
-    .catalog__category-one {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
       a {
         border: 1px solid var(--lightgreen);
         padding: 10px 0;
@@ -887,28 +896,123 @@
         border-right: none;
       }
     }
+
     .catalog__category-two {
-      &.active {
-        opacity: 1;
-        display: block;
+      transition: all 0.5s;
+
+      &.open {
+        a {
+          color: var(--body);
+          transition: all 0.5s;
+
+          .menu__arrow {
+            height: 7px;
+            width: 7px;
+            transition: all 0.5s;
+            border-right: 2px solid var(--body);
+            border-bottom: 2px solid var(--body);
+            transform: rotate(316deg);
+          }
+        }
       }
+      &.active {
+        transition: all 0.5s;
+        .menu__arrow {
+          transition: all 0.5s;
+          border-right: 2px solid var(--body);
+          border-bottom: 2px solid var(--body);
+          height: 7px;
+          width: 7px;
+          transform: rotate(315deg);
+        }
+
+        a {
+          color: var(--gren);
+          transition: all 0.5s;
+
+          .menu__arrow {
+            height: 7px;
+            width: 7px;
+            transition: all 0.5s;
+            border-right: 2px solid var(--gren);
+            border-bottom: 2px solid var(--gren);
+            transform: rotate(48deg);
+          }
+        }
+      }
+
+      height: 100%;
+    }
+
+    .catalog__category-one {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
       .menu__item-two {
         padding: 5px 20px 5px 60px;
       }
     }
 
     .catalog__category-three {
-      &.active {
+      &.open {
         opacity: 1;
         display: block;
+
+        a {
+          color: var(--body);
+          transition: all 0.5s;
+
+          .menu__arrow {
+            height: 7px;
+            width: 7px;
+            transition: all 0.5s;
+            border-right: 2px solid var(--body);
+            border-bottom: 2px solid var(--body);
+            transform: rotate(316deg);
+          }
+        }
+      }
+
+      &.active {
+        transition: all 0.5s;
+
+        .menu__arrow {
+          transition: all 0.5s;
+          border-right: 2px solid var(--body);
+          border-bottom: 2px solid var(--body);
+          height: 7px;
+          width: 7px;
+          transform: rotate(315deg);
+        }
+
+        a {
+          color: var(--gren);
+          transition: all 0.5s;
+
+          .menu__arrow {
+            height: 7px;
+            width: 7px;
+            transition: all 0.5s;
+            border-right: 2px solid var(--gren);
+            border-bottom: 2px solid var(--gren);
+            transform: rotate(48deg);
+          }
+        }
       }
       .menu__item-three {
         padding: 5px 10px 5px 10px;
         a {
+          transition: all 0.5s;
           padding: 0;
+          &:hover {
+            color: var(--gren);
+            transition: all 0.5s;
+          }
         }
       }
     }
+
     .catalog__category-two,
     .catalog__category-three {
       transition: all 0.5s;
@@ -928,13 +1032,22 @@
       }
 
       .menu__item-name {
-        width: 120px;
+        min-width: 120px;
+        max-width: 180px;
+        font-size: 14px;
+
+        white-space: normal; 
+        word-wrap: break-word; 
+        overflow-wrap: break-word;
       }
     }
     .catalog__category-three li {
       .menu__item-three {
         padding: 10px !important;
       }
+    }
+    .menu__item-one-name {
+      font-size: 14px;
     }
   }
 }
