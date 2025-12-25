@@ -28,8 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   burger();
 
-
-
   const burgerBobMenu = () => {
     const sershMobBTN = document.querySelector(".burger__mobile-btn");
     const meneWrapper = document.querySelector(".burger-mobile");
@@ -68,10 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   burgerBobMenu();
 
- const burgerMenuTable = () => {
+  const burgerMenuTable = () => {
     const sershMobBtn = document.querySelector(".burger-mobile__table");
     const arrowAnimation = document.querySelector(".burger-mobile__arrow");
-    const menuItem = document.querySelector(".burger-mobile__one-items");
+    const menuItem = document.querySelector(".burger-mobile__catalog-items");
 
     sershMobBtn.addEventListener("click", () => {
       if (!menuItem.classList.contains("active")) {
@@ -86,14 +84,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
   burgerMenuTable();
 
+  const burgerMobMenu = () => {
+    // Первый уровень
+    const itemMenu = document.querySelectorAll(".menu__item-one");
 
+    itemMenu.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault(); // отменяем переход по ссылке первого уровня
 
+        // Скрываем актив у всех остальных первого уровня
+        itemMenu.forEach((otherItem) => {
+          if (otherItem !== item) {
+            otherItem.classList.remove("active");
+            const childLvl2 = otherItem.querySelector(".catalog__category-two");
+            if (childLvl2) childLvl2.classList.remove("active");
+          }
+        });
 
-    document.querySelectorAll('.menu__item').forEach(item => {
-    if (item.querySelector('ul')) {
-      item.classList.add('active');
-    }
-  });
+        // Переключаем актив у текущего первого уровня
+        item.classList.toggle("active");
 
-  
+        // Переключаем актив второго уровня только если он есть
+        const childLvl2 = item.querySelector(".catalog__category-two");
+        if (childLvl2) {
+          childLvl2.classList.toggle("active");
+        }
+      });
+    });
+
+    // Второй уровень (открытие третьего)
+    const lvl2Items = document.querySelectorAll(".catalog__category-two");
+
+    lvl2Items.forEach((lvl2) => {
+      lvl2.addEventListener("click", (e) => {
+        e.stopPropagation(); // чтобы клик не поднялся к первому уровню
+
+        // Если клик был именно на lvl2 (не на ссылку третьего уровня)
+        if (!e.target.closest(".catalog__category-three a")) {
+          e.preventDefault(); // отменяем переход по ссылке второго уровня
+          const lvl3 = lvl2.querySelector(".catalog__category-three");
+          if (lvl3) {
+            lvl3.classList.toggle("active");
+          }
+        }
+      });
+    });
+  };
+
+  burgerMobMenu();
 });

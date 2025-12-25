@@ -104,124 +104,124 @@
 					<div class="catalog_wrapper">
 
 
-					<ul class="menu catalog__category catalog__category-one">
+						<ul class="menu catalog__category catalog__category-one">
 
-	<?php
-	$categories = get_terms([
-		'taxonomy'   => 'product_cat',
-		'hide_empty' => false,
-		'parent'     => 0,
-	]);
+							<?php
+							$categories = get_terms([
+								'taxonomy'   => 'product_cat',
+								'hide_empty' => false,
+								'parent'     => 0,
+							]);
 
-	foreach ($categories as $category):
+							foreach ($categories as $category):
 
-		$thumbnail_id = get_term_meta($category->term_id, 'thumbnail_id', true);
-		$image = wp_get_attachment_url($thumbnail_id);
+								$thumbnail_id = get_term_meta($category->term_id, 'thumbnail_id', true);
+								$image = wp_get_attachment_url($thumbnail_id);
 
-		$products = wc_get_products([
-			'category' => [$category->slug],
-			'limit'    => -1,
-			'status'   => 'publish',
-		]);
+								$products = wc_get_products([
+									'category' => [$category->slug],
+									'limit'    => -1,
+									'status'   => 'publish',
+								]);
 
-		if (empty($products)) {
-			continue;
-		}
-	?>
+								if (empty($products)) {
+									continue;
+								}
+							?>
 
-		<li class="menu__item">
+								<li class="menu__item">
 
-			<!-- 1 lvl: category -->
-			<a class="menu__item-link" href="<?php echo esc_url(get_term_link($category)); ?>">
-				<?php if ($image): ?>
-					<img class="menu__item-catalog-image"
-						src="<?php echo esc_url($image); ?>"
-						alt="<?php echo esc_attr($category->name); ?>">
-				<?php endif; ?>
-				<div class="menu__item-name"><?php echo esc_html($category->name); ?></div>
-				<span class="menu__arrow"></span>
-			</a>
+									<!-- 1 lvl: category -->
+									<a class="menu__item-link" href="<?php echo esc_url(get_term_link($category)); ?>">
+										<?php if ($image): ?>
+											<img class="menu__item-catalog-image"
+												src="<?php echo esc_url($image); ?>"
+												alt="<?php echo esc_attr($category->name); ?>">
+										<?php endif; ?>
+										<div class="menu__item-name"><?php echo esc_html($category->name); ?></div>
+										<span class="menu__arrow"></span>
+									</a>
 
-			<!-- 2 lvl: products -->
-			<ul class="catalog__category catalog__category-two">
+									<!-- 2 lvl: products -->
+									<ul class="catalog__category catalog__category-two">
 
-				<?php foreach ($products as $product): ?>
+										<?php foreach ($products as $product): ?>
 
-					<?php
-					$all_terms = [];
-					$attributes = $product->get_attributes();
+											<?php
+											$all_terms = [];
+											$attributes = $product->get_attributes();
 
-					foreach ($attributes as $attribute) {
+											foreach ($attributes as $attribute) {
 
-						if (!$attribute->is_taxonomy()) {
-							continue;
-						}
+												if (!$attribute->is_taxonomy()) {
+													continue;
+												}
 
-						$taxonomy = $attribute->get_name();
+												$taxonomy = $attribute->get_name();
 
-						$terms = wp_get_post_terms(
-							$product->get_id(),
-							$taxonomy,
-							[
-								'orderby' => 'term_order',
-								'order'   => 'ASC',
-							]
-						);
+												$terms = wp_get_post_terms(
+													$product->get_id(),
+													$taxonomy,
+													[
+														'orderby' => 'term_order',
+														'order'   => 'ASC',
+													]
+												);
 
-						if (!empty($terms)) {
-							$all_terms[$taxonomy] = $terms;
-						}
-					}
-					?>
+												if (!empty($terms)) {
+													$all_terms[$taxonomy] = $terms;
+												}
+											}
+											?>
 
-					<li class="menu__item">
+											<li class="menu__item">
 
-						<a class="menu__item-link" href="<?php echo esc_url(get_permalink($product->get_id())); ?>">
-							<div class="menu__item-name"><?php echo esc_html($product->get_name()); ?></div>
-							<?php if (!empty($all_terms)): ?>
-								<span class="menu__arrow"></span>
-							<?php endif; ?>
-						</a>
+												<a class="menu__item-link" href="<?php echo esc_url(get_permalink($product->get_id())); ?>">
+													<div class="menu__item-name"><?php echo esc_html($product->get_name()); ?></div>
+													<?php if (!empty($all_terms)): ?>
+														<span class="menu__arrow"></span>
+													<?php endif; ?>
+												</a>
 
-						<!-- 3 lvl: attributes -->
-						<?php if (!empty($all_terms)): ?>
-							<ul class="catalog__category catalog__category-three">
+												<!-- 3 lvl: attributes -->
+												<?php if (!empty($all_terms)): ?>
+													<ul class="catalog__category catalog__category-three">
 
-								<?php foreach ($all_terms as $taxonomy => $terms): ?>
-									<?php foreach ($terms as $term): ?>
+														<?php foreach ($all_terms as $taxonomy => $terms): ?>
+															<?php foreach ($terms as $term): ?>
 
-										<li class="menu__item">
-											<a class="menu__item-link"
-											   href="<?php echo esc_url(
-												   add_query_arg(
-													   'filter_' . wc_attribute_taxonomy_slug($taxonomy),
-													   $term->slug,
-													   get_term_link($category)
-												   )
-											   ); ?>">
-												<div class="menu__item-name">
-													<?php echo esc_html($term->name); ?>
-												</div>
-											</a>
-										</li>
+																<li class="menu__item">
+																	<a class="menu__item-link"
+																		href="<?php echo esc_url(
+																					add_query_arg(
+																						'filter_' . wc_attribute_taxonomy_slug($taxonomy),
+																						$term->slug,
+																						get_term_link($category)
+																					)
+																				); ?>">
+																		<div class="menu__item-name">
+																			<?php echo esc_html($term->name); ?>
+																		</div>
+																	</a>
+																</li>
 
-									<?php endforeach; ?>
-								<?php endforeach; ?>
+															<?php endforeach; ?>
+														<?php endforeach; ?>
 
-							</ul>
-						<?php endif; ?>
+													</ul>
+												<?php endif; ?>
 
-					</li>
+											</li>
 
-				<?php endforeach; ?>
+										<?php endforeach; ?>
 
-			</ul>
+									</ul>
 
-		</li>
+								</li>
 
-	<?php endforeach; ?>
+							<?php endforeach; ?>
 
-</ul>
+						</ul>
 
 
 
@@ -309,7 +309,7 @@
 
 			</div>
 
-			<ul class="burger-mobile__items">
+			<ul class="burger-mobile__items burger-mobile__items-catalog">
 				<li class="burger-mobile__item ">
 					<div class="burger-mobile__content burger-mobile__table">
 						<a class="burger-mobile__link"> Каталог товарів</a>
@@ -322,56 +322,158 @@
 
 					</div>
 
-					<ul class="burger-mobile__one-items">
-						<li class="burger-mobile__one-item">
-							<a class="burger-mobile__one-link" href="#">Покриття для бетону</a>
-						</li>
-						<li class="burger-mobile__one-item">
-							<a class="burger-mobile__one-link" href="#">Емаль для ванн Green</a>
-						</li>
-						<li class="burger-mobile__one-item">
-							<a class="burger-mobile__one-link" href="#">Акрил для ванн</a>
-						</li>
-						<li class="burger-mobile__one-item">
-							<a class="burger-mobile__one-link" href="#">Епоксидна наливна підлога</a>
-						</li>
-						<li class="burger-mobile__one-item">
-							<a class="burger-mobile__one-link" href="#">Епоксидна фарба для плитки</a>
-						</li>
-						<li class="burger-mobile__one-item">
-							<a class="burger-mobile__one-link" href="#">Епоксидна смола та пігменти</a>
-						</li>
-						<li class="burger-mobile__one-item">
-							<a class="burger-mobile__one-link" href="#">Акрил для реставрації ванн</a>
-						</li>
+					<ul class="burger-mobile__catalog-items">
+
+
+
+			<ul class="menu catalog__category catalog__category-one">
+
+							<?php
+							$categories = get_terms([
+								'taxonomy'   => 'product_cat',
+								'hide_empty' => false,
+								'parent'     => 0,
+							]);
+
+							foreach ($categories as $category):
+
+								$thumbnail_id = get_term_meta($category->term_id, 'thumbnail_id', true);
+								$image = wp_get_attachment_url($thumbnail_id);
+
+								$products = wc_get_products([
+									'category' => [$category->slug],
+									'limit'    => -1,
+									'status'   => 'publish',
+								]);
+
+								if (empty($products)) {
+									continue;
+								}
+							?>
+
+								<li class="menu__item menu__item-one">
+
+									<!-- 1 lvl: category -->
+									<a class="menu__item-link" href="<?php echo esc_url(get_term_link($category)); ?>">
+										<?php if ($image): ?>
+											<img class="menu__item-catalog-image"
+												src="<?php echo esc_url($image); ?>"
+												alt="<?php echo esc_attr($category->name); ?>">
+										<?php endif; ?>
+										<div class="menu__item-name"><?php echo esc_html($category->name); ?></div>
+										<span class="menu__arrow"></span>
+									</a>
+
+									<!-- 2 lvl: products -->
+									<ul class="catalog__category catalog__category-two">
+
+										<?php foreach ($products as $product): ?>
+
+											<?php
+											$all_terms = [];
+											$attributes = $product->get_attributes();
+
+											foreach ($attributes as $attribute) {
+
+												if (!$attribute->is_taxonomy()) {
+													continue;
+												}
+
+												$taxonomy = $attribute->get_name();
+
+												$terms = wp_get_post_terms(
+													$product->get_id(),
+													$taxonomy,
+													[
+														'orderby' => 'term_order',
+														'order'   => 'ASC',
+													]
+												);
+
+												if (!empty($terms)) {
+													$all_terms[$taxonomy] = $terms;
+												}
+											}
+											?>
+
+											<li class="menu__item menu__item-two">
+
+												<a class="menu__item-link" href="<?php echo esc_url(get_permalink($product->get_id())); ?>">
+													<div class="menu__item-name"><?php echo esc_html($product->get_name()); ?></div>
+													<?php if (!empty($all_terms)): ?>
+														<span class="menu__arrow"></span>
+													<?php endif; ?>
+												</a>
+
+												<!-- 3 lvl: attributes -->
+												<?php if (!empty($all_terms)): ?>
+													<ul class="catalog__category catalog__category-three">
+
+														<?php foreach ($all_terms as $taxonomy => $terms): ?>
+															<?php foreach ($terms as $term): ?>
+
+																<li class="menu__item menu__item-three">
+																	<a class="menu__item-link"
+																		href="<?php echo esc_url(
+																					add_query_arg(
+																						'filter_' . wc_attribute_taxonomy_slug($taxonomy),
+																						$term->slug,
+																						get_term_link($category)
+																					)
+																				); ?>">
+																		<div class="menu__item-name">
+																			<?php echo esc_html($term->name); ?>
+																		</div>
+																	</a>
+																</li>
+
+															<?php endforeach; ?>
+														<?php endforeach; ?>
+
+													</ul>
+												<?php endif; ?>
+
+											</li>
+
+										<?php endforeach; ?>
+
+									</ul>
+
+								</li>
+
+							<?php endforeach; ?>
+
+						</ul>
+
 					</ul>
 				</li>
-				<li class="burger-mobile__item">
-					<div class="burger-mobile__content">
-						<a class="burger-mobile__link">Доставка та оплата</a>
-					</div>
-				</li>
-				<li class="burger-mobile__item">
-					<div class="burger-mobile__content">
-						<a class="burger-mobile__link">Обмін та повернення</a>
-					</div>
-				</li>
-				<li class="burger-mobile__item">
-					<div class="burger-mobile__content">
-						<a class="burger-mobile__link">Про нас</a>
-					</div>
-				</li>
-				<li class="burger-mobile__item">
-					<div class="burger-mobile__content">
-						<a class="burger-mobile__link">Контакти</a>
-					</div>
-				</li>
-				<li class="burger-mobile__item">
-					<div class="burger-mobile__content">
-						<a class="burger-mobile__link">Відгуки</a>
-					</div>
-				</li>
 			</ul>
+			<?php
+
+
+			$locations = get_nav_menu_locations();
+			$menu_id = $locations['header_nav'] ?? null;
+
+			if ($menu_id):
+				$menu_items = wp_get_nav_menu_items($menu_id);
+			?>
+				<ul class="burger-mobile__nav">
+					<?php foreach ($menu_items as $item): ?>
+						<?php if ($item->menu_item_parent == 0): ?>
+							<li class="burger-mobile__item">
+								<div class="burger-mobile__content">
+									<a
+										class="burger-mobile__link"
+										href="<?php echo esc_url($item->url); ?>">
+										<?php echo esc_html($item->title); ?>
+									</a>
+								</div>
+							</li>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+
 			<div class="wrapper">
 				<div class="burger-mobile__wrapper">
 					<a class="header__tel" href="tel:+380631298869">380 (63) 129-88-69</a>
